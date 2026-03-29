@@ -147,6 +147,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     SimpleDeviceConfig
 
+ifneq ($(TARGET_EXCLUDE_LOS_EXTRA_CLI_UTILS),true)
 # Extra tools in Lineage
 PRODUCT_PACKAGES += \
     7z \
@@ -162,6 +163,7 @@ PRODUCT_PACKAGES += \
     unrar \
     vim \
     zip
+endif
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -175,6 +177,7 @@ PRODUCT_PACKAGES += \
     mkfs.ntfs \
     mount.ntfs
 
+ifneq ($(TARGET_EXCLUDE_LOS_EXTRA_CLI_UTILS),true)
 # Openssh
 PRODUCT_PACKAGES += \
     scp \
@@ -188,6 +191,7 @@ PRODUCT_PACKAGES += \
 # rsync
 PRODUCT_PACKAGES += \
     rsync
+endif
 
 # Storage manager
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
