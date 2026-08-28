@@ -23,27 +23,6 @@ MD5 := prebuilts/build-tools/path/$(HOST_PREBUILT_TAG)/md5sum
 SHA256 := prebuilts/build-tools/path/$(HOST_PREBUILT_TAG)/sha256sum
 
 .PHONY: bandori
-ifeq ($(LINEAGE_BUILDTYPE),OFFICIAL)
-ifneq ($(TARGET_NO_ENFORCE_SIGNING),true)
-# This build is marked as official and requires signing. Some official devices might
-# not have a partition built so we're not enforcing signing for now.
-# TODO: Unify the process inside a separate makefile/shell script and call it instead.
-bandori: $(INTERNAL_OTA_PACKAGE_TARGET) otatools target-files-package
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(LINEAGE_TARGET_PACKAGE)
-	$(hide) mv $(LINEAGE_TARGET_PACKAGE) $(LINEAGE_TARGET_PACKAGE).unsigned
-	$(hide) $(HOST_OUT)/bin/sign_target_files_apks -o -d vendor/priv $(PRODUCT_OUT)/obj/PACKAGING/target_files_intermediates/*-target_files-*.zip $(PRODUCT_OUT)/signed-target_files.zip >&2
-	$(hide) $(HOST_OUT)/bin/ota_from_target_files -k vendor/priv/releasekey --block --backup=true $(PRODUCT_OUT)/signed-target_files.zip $(LINEAGE_TARGET_PACKAGE) >&2
-	$(hide) $(MD5) $(LINEAGE_TARGET_PACKAGE) | sed "s|$(PRODUCT_OUT)/||" > $(LINEAGE_TARGET_PACKAGE).md5sum
-	$(hide) $(SHA256) $(LINEAGE_TARGET_PACKAGE) | sed "s|$(PRODUCT_OUT)/||" > $(LINEAGE_TARGET_PACKAGE).sha256sum
-	@echo "//          Project Kasumi          //" >&2
-	@echo "// PoPiPa, PiPoPa, PoPiPaPaPiPoPa~! //" >&2
-	@echo "" >&2
-	@echo "Package Complete: $(LINEAGE_TARGET_PACKAGE)" >&2
-	@echo "" >&2
-	@echo "To get started, get your custom recovery up and slap this ROM in!" >&2
-	@echo "Based on Project Materium, brought to you by Yuki (@yukiqt) and Beru Kobayashi (@windowz414)." >&2
-else
-# Builds that can't be signed must have signature enforcement disabled using the flag above.
 bandori: $(INTERNAL_OTA_PACKAGE_TARGET)
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(LINEAGE_TARGET_PACKAGE)
 	$(hide) $(MD5) $(LINEAGE_TARGET_PACKAGE) | sed "s|$(PRODUCT_OUT)/||" > $(LINEAGE_TARGET_PACKAGE).md5sum
@@ -54,19 +33,4 @@ bandori: $(INTERNAL_OTA_PACKAGE_TARGET)
 	@echo "Package Complete: $(LINEAGE_TARGET_PACKAGE)" >&2
 	@echo "" >&2
 	@echo "To get started, get your custom recovery up and slap this ROM in!" >&2
-	@echo "Based on Project Materium, brought to you by Yuki (@yukiqt) and Beru Kobayashi (@windowz414)." >&2
-endif
-else
-# Builds that aren't marked as official aren't required to be signed.
-bandori: $(INTERNAL_OTA_PACKAGE_TARGET)
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(LINEAGE_TARGET_PACKAGE)
-	$(hide) $(MD5) $(LINEAGE_TARGET_PACKAGE) | sed "s|$(PRODUCT_OUT)/||" > $(LINEAGE_TARGET_PACKAGE).md5sum
-	$(hide) $(SHA256) $(LINEAGE_TARGET_PACKAGE) | sed "s|$(PRODUCT_OUT)/||" > $(LINEAGE_TARGET_PACKAGE).sha256sum
-	@echo "//          Project Kasumi          //" >&2
-	@echo "// PoPiPa, PiPoPa, PoPiPaPaPiPoPa~! //" >&2
-	@echo "" >&2
-	@echo "Package Complete: $(LINEAGE_TARGET_PACKAGE)" >&2
-	@echo "" >&2
-	@echo "To get started, get your custom recovery up and slap this ROM in!" >&2
-	@echo "Based on Project Materium, brought to you by Yuki (@yukiqt) and Beru Kobayashi (@windowz414)." >&2
-endif
+	@echo "Based on Project Materium (now known as droid-ng), revived by Linda St-Denis." >&2

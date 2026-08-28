@@ -223,8 +223,8 @@ PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/crowdin/overlay
 PRODUCT_PACKAGE_OVERLAYS += vendor/crowdin/overlay
 
 PRODUCT_VERSION_MAJOR := 1
-PRODUCT_VERSION_MINOR := 4
-PRODUCT_VERSION_MAINTENANCE := 1
+PRODUCT_VERSION_MINOR := 5
+PRODUCT_VERSION_MAINTENANCE := 0
 PRODUCT_VERSION_CODENAME := PoPiPa
 PRODUCT_KASUMI_EXTRAVERSION :=
 
@@ -354,7 +354,7 @@ endif
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     vendor/kasumi/build/target/product/security/lineage
 
--include vendor/materium-priv/keys/keys.mk
+-include vendor/kasumi-priv/keys/keys.mk
 
 LINEAGE_DISPLAY_VERSION := $(LINEAGE_VERSION)
 
